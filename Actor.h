@@ -6,7 +6,7 @@ class AActor
 {
 public:
 	AActor();
-	AActor(int NewX, int NewY, char NewShape, bool bNewCollision = false);
+	AActor(int NewX, int NewY, char NewShape, bool bNewCollision = false, int NewSortOrder = 1);
 	virtual	~AActor();
 	char Shape;
 
@@ -17,7 +17,14 @@ public:
 
 	bool bCollision;
 
+	int SortOrder;
+
 	virtual void Render();
 	virtual void Tick();
+
+	static bool Compare(AActor* First, AActor* Second)
+	{
+		return First->SortOrder < Second->SortOrder;
+	}
 };
 

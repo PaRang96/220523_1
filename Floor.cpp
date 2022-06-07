@@ -5,8 +5,8 @@ AFloor::AFloor()
 {
 }
 
-AFloor::AFloor(int NewX, int NewY, char NewShape, bool bNewCollision)
-	: AActor(NewX, NewY, NewShape, bNewCollision)
+AFloor::AFloor(int NewX, int NewY, char NewShape, bool bNewCollision = false, int NewSortOrder = 1)
+	: AActor(NewX, NewY, NewShape, bNewCollision, NewSortOrder)
 {
 }
 

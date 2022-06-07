@@ -6,7 +6,7 @@ class AMonster :
 {
 public:
     AMonster();
-    AMonster(int NewX, int NewY, char NewShape, bool bNewCollision);
+    AMonster(int NewX, int NewY, char NewShape, bool bNewCollision, int NewSortOrder);
     virtual ~AMonster();
 
     virtual void Tick() override;

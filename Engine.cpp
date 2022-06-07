@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <conio.h>
+#include <algorithm>
 
 #include "Engine.h"
 #include "Floor.h"
@@ -48,25 +49,29 @@ void Engine::Load(string MapFilename)
 			switch (Cursor)
 			{
 			case '#':
-				MyWorld->MyActors.push_back(new AWall(X, Y, '#', true));
+				MyWorld->MyActors.push_back(new AWall(X, Y, '#', true, 2));
 				break;
 			case ' ':
-				MyWorld->MyActors.push_back(new AFloor(X, Y, ' ', false));
+				MyWorld->MyActors.push_back(new AFloor(X, Y, ' ', false, 1));
 				break;
 			case 'P':
-				MyWorld->MyActors.push_back(new APlayer(X, Y, 'P', true));
+				MyWorld->MyActors.push_back(new APlayer(X, Y, 'P', true, 5));
 				break;
 			case 'G':
-				MyWorld->MyActors.push_back(new AGoal(X, Y, 'G', false));
+				MyWorld->MyActors.push_back(new AGoal(X, Y, 'G', false, 3));
 				break;
 			case 'M':
-				MyWorld->MyActors.push_back(new AMonster(X, Y, 'M', true));
+				MyWorld->MyActors.push_back(new AMonster(X, Y, 'M', true, 4));
 				break;
 			}
+
+			MyWorld->MyActors.push_back(new AFloor(X, Y, ' ', false, 1));
 		}
 
 		Y++;
 	}
+
+	sort(MyWorld->MyActors.begin(), MyWorld->MyActors.end(), AActor::Compare);
 
 	MapFile.close();
 }

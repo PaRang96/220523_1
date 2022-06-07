@@ -5,7 +5,7 @@ class AGoal : public AActor
 {
 public:
 	AGoal();
-	AGoal(int NewX, int NewY, char NewShape, bool bNewCollision);
+	AGoal(int NewX, int NewY, char NewShape, bool bNewCollision, int NewSortOrder);
 	virtual ~AGoal();
 
 	virtual void Tick() override;
