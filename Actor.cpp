@@ -1,6 +1,8 @@
 #include "Actor.h"
 #include <Windows.h>
 #include <iostream>
+#include "Engine.h"
+#include "World.h"
 
 using namespace std;
 
@@ -40,4 +42,19 @@ void AActor::Render()
 
 void AActor::Tick()
 {
+}
+
+bool AActor::PredictCollision(int PredictX, int PredictY)
+{
+	//GEngine->GetWorld()->MyActors;
+
+	for (auto Actor : GEngine->GetWorld()->MyActors)
+	{
+		if (Actor->X == PredictX && Actor->Y == PredictY && Actor->bCollision)
+		{
+			return true;
+		}
+	}
+
+	return false;
 }

@@ -12,5 +12,7 @@ public:
 	virtual ~APlayer();
 
 	virtual void Tick() override;
+
+	bool IsGoal();
 };
 

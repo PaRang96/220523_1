@@ -10,7 +10,6 @@ public:
 	Engine();
 	virtual ~Engine();
 
-	World* MyWorld;
 	bool bRunning;
 
 	void Initialize();
@@ -20,7 +19,19 @@ public:
 	void Input();
 
 	inline static int GetKeyCode() { return Engine::KeyCode; }
+
+	inline static Engine* GetEngine() { return Instance; }
 	
+	World* GetWorld() const { return MyWorld; }
+
+	inline void QuitGame() { bRunning = false; }
+
 protected:
 	static int KeyCode;
+	
+	World* MyWorld;
+
+	static Engine* Instance;
 };
+
+#define GEngine Engine::GetEngine()
