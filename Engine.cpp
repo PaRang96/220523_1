@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <conio.h>
 
 #include "Engine.h"
 #include "Floor.h"
@@ -10,6 +11,8 @@
 #include "World.h"
 
 using namespace std;
+
+int Engine::KeyCode = 0;
 
 Engine::Engine()
 {
@@ -72,6 +75,7 @@ void Engine::Run()
 {
 	while (bRunning) // per 1 frame
 	{
+		Input();
 		MyWorld->Tick();
 		MyWorld->Render();
 	}
@@ -81,4 +85,9 @@ void Engine::Terminate()
 {
 	delete MyWorld;
 	MyWorld = nullptr;
+}
+
+void Engine::Input()
+{
+	Engine::KeyCode = _getch();
 }

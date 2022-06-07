@@ -31,6 +31,8 @@ void AActor::Render()
 	Pos.Y = Y;
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), Pos);
 
+	Type = ESpriteType::Wall;
+
 	cout << Shape;
 }
 

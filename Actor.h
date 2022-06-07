@@ -1,5 +1,5 @@
 #pragma once
-
+#include "SpriteType.h"
 // express oneself on the 2D vector
 // check and deal with collision
 class AActor
@@ -9,6 +9,8 @@ public:
 	AActor(int NewX, int NewY, char NewShape, bool bNewCollision = false);
 	virtual	~AActor();
 	char Shape;
+
+	ESpriteType Type;
 
 	int X;
 	int Y;
