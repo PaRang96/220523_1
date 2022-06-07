@@ -71,6 +71,7 @@ void Engine::Load(string MapFilename)
 		Y++;
 	}
 
+	// Rendering Order
 	sort(MyWorld->MyActors.begin(), MyWorld->MyActors.end(), AActor::Compare);
 
 	MapFile.close();
