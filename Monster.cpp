@@ -5,7 +5,7 @@ AMonster::AMonster()
 {
 }
 
-AMonster::AMonster(int NewX, int NewY, char NewShape, bool bNewCollision, int NewSortOrder = 4)
+AMonster::AMonster(int NewX, int NewY, char NewShape, bool bNewCollision, int NewSortOrder = 5)
 	: AActor(NewX, NewY, NewShape, bNewCollision, NewSortOrder)
 {
 }

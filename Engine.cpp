@@ -57,13 +57,13 @@ void Engine::Load(string MapFilename)
 				MyWorld->SpawnActor(new AFloor(X, Y, ' ', false, 1));
 				break;
 			case 'P':
-				MyWorld->SpawnActor(new APlayer(X, Y, 'P', true, 5));
+				MyWorld->SpawnActor(new APlayer(X, Y, 'P', true, 4));
 				break;
 			case 'G':
 				MyWorld->SpawnActor(new AGoal(X, Y, 'G', false, 3));
 				break;
 			case 'M':
-				MyWorld->SpawnActor(new AMonster(X, Y, 'M', true, 4));
+				MyWorld->SpawnActor(new AMonster(X, Y, 'M', false, 5));
 				break;
 			}
 
