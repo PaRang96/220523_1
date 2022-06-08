@@ -27,9 +27,9 @@ public:
 	int SortOrder;
 
 	// colour
-	int R;
-	int G;
-	int B;
+	int R = 0;
+	int G = 0;
+	int B = 0;
 	int A = 255;
 
 	// sprite size
