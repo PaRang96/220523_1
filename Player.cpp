@@ -2,15 +2,24 @@
 #include "Engine.h"
 #include "World.h"
 #include "Goal.h"
+#include "SDL.h"
 
 APlayer::APlayer()
 	: AActor()
 {
+	R = 0;
+	G = 0;
+	B = 255;
+	LoadBMP("player.bmp");
 }
 
 APlayer::APlayer(int NewX, int NewY, char NewShape, bool bNewCollision, int NewSortOrder = 4)
 	: AActor(NewX, NewY, NewShape, bNewCollision, NewSortOrder)
 {
+	R = 0;
+	G = 0;
+	B = 255;
+	LoadBMP("player.bmp");
 }
 
 APlayer::~APlayer()
@@ -19,25 +28,29 @@ APlayer::~APlayer()
 
 void APlayer::Tick()
 {
-	int KeyCode = Engine::GetKeyCode();
-
-	switch (KeyCode)
+	switch (GEngine->MyEvent.type)
 	{
-	case 'w':
-	case 'W':
-		Y = (PredictCollision(X, Y - 1) == false) ? Y - 1 : Y;
+	case SDL_QUIT:
+		GEngine->QuitGame();
 		break;
-	case 's':
-	case 'S':
-		Y = (PredictCollision(X, Y + 1) == false) ? Y + 1 : Y;
-		break;
-	case 'a':
-	case 'A':
-		X = (PredictCollision(X - 1, Y) == false) ? X - 1 : X;
-		break;
-	case 'd':
-	case 'D':
-		X = (PredictCollision(X + 1, Y) == false) ? X + 1 : X;
+	case SDL_KEYDOWN:
+		switch (GEngine->MyEvent.key.keysym.sym)
+		{
+		case SDLK_w:
+			Y = (PredictCollision(X, Y - 1) == false) ? Y - 1 : Y;
+			break;
+		case SDLK_s:
+			Y = (PredictCollision(X, Y + 1) == false) ? Y + 1 : Y;
+			break;
+		case SDLK_a:
+			X = (PredictCollision(X - 1, Y) == false) ? X - 1 : X;
+			break;
+		case SDLK_d:
+			X = (PredictCollision(X + 1, Y) == false) ? X + 1 : X;
+			break;
+		case SDLK_ESCAPE:
+			GEngine->QuitGame();
+		}
 		break;
 	}
 

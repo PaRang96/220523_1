@@ -3,6 +3,7 @@
 #include <conio.h>
 #include <algorithm>
 
+#include "Actor.h"
 #include "Engine.h"
 #include "Floor.h"
 #include "Goal.h"
@@ -10,6 +11,12 @@
 #include "Player.h"
 #include "Monster.h"
 #include "World.h"
+
+#include "SDL.h"
+
+#pragma comment(lib, "SDL2.lib")
+#pragma comment(lib, "SDL2main.lib")
+
 
 using namespace std;
 
@@ -31,6 +38,17 @@ void Engine::Initialize()
 {
 	MyWorld = new World;
 	bRunning = true;
+
+	// initializing hardware
+	if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
+	{
+		SDL_Log("SDL_INIT_ERROR");
+	}
+
+	// create window
+	MyWindow = SDL_CreateWindow("Maze", 100, 100, 800, 600, SDL_WINDOW_VULKAN);
+	MyRenderer = SDL_CreateRenderer(MyWindow, -1,
+		SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE);
 }
 
 void Engine::Load(string MapFilename)
@@ -53,9 +71,9 @@ void Engine::Load(string MapFilename)
 			case '#':
 				MyWorld->SpawnActor(new AWall(X, Y, '#', true, 2));
 				break;
-			case ' ':
-				MyWorld->SpawnActor(new AFloor(X, Y, ' ', false, 1));
-				break;
+			//case ' ':
+			//	MyWorld->SpawnActor(new AFloor(X, Y, ' ', false, 1));
+			//	break;
 			case 'P':
 				MyWorld->SpawnActor(new APlayer(X, Y, 'P', true, 4));
 				break;
@@ -69,7 +87,7 @@ void Engine::Load(string MapFilename)
 
 			MyWorld->SpawnActor(new AFloor(X, Y, ' ', false, 1));
 		}
-
+		
 		Y++;
 	}
 
@@ -85,7 +103,18 @@ void Engine::Run()
 	{
 		Input();
 		MyWorld->Tick();
+
+		// tasks for gpu
+		SDL_SetRenderDrawColor(MyRenderer, 0xff, 0x00, 0x00, 0xff);
+		SDL_RenderClear(MyRenderer);
+
 		MyWorld->Render();
+
+		// draw rect
+		//SDL_SetRenderDrawColor(MyRenderer, 0xff, 0xff, 0x00, 0xff);
+
+		// start tasks
+		SDL_RenderPresent(MyRenderer);
 	}
 }
 
@@ -93,9 +122,14 @@ void Engine::Terminate()
 {
 	delete MyWorld;
 	MyWorld = nullptr;
+
+	SDL_DestroyRenderer(MyRenderer);
+	SDL_DestroyWindow(MyWindow);
+	SDL_Quit();
 }
 
 void Engine::Input()
 {
-	Engine::KeyCode = _getch();
+	//Engine::KeyCode = _getch();
+	SDL_PollEvent(&MyEvent);
 }

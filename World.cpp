@@ -1,4 +1,8 @@
 #include "World.h"
+#include <iostream>
+
+using namespace std;
+
 
 World::World()
 {
@@ -37,12 +41,12 @@ void World::Tick()
 
 void World::Render()
 {
-	system("cls");
-
 	for (auto Actor : MyActors)
 	{
 		Actor->Render();
 	}
+
+	//cout << MyActors.size() << endl;
 }
 
 void World::SpawnActor(AActor* NewActor)

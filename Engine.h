@@ -1,6 +1,7 @@
 #pragma once
 #include "World.h"
 #include <string>
+#include "SDL.h"
 
 using namespace std;
 
@@ -25,6 +26,10 @@ public:
 	World* GetWorld() const { return MyWorld; }
 
 	inline void QuitGame() { bRunning = false; }
+
+	SDL_Window* MyWindow;
+	SDL_Renderer* MyRenderer;
+	SDL_Event MyEvent;
 
 protected:
 	static int KeyCode;

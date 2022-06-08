@@ -7,7 +7,5 @@ public:
 	AFloor();
 	AFloor(int NewX, int NewY, char NewShape, bool bNewCollision, int NewSortOrder);
 	virtual	~AFloor();
-
-	void Render() override;
 };
 
