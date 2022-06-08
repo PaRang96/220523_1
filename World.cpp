@@ -1,8 +1,4 @@
 #include "World.h"
-#include <iostream>
-
-using namespace std;
-
 
 World::World()
 {
@@ -10,43 +6,42 @@ World::World()
 
 World::~World()
 {
-	// memory
 	for (auto Actor : MyActors)
 	{
 		delete Actor;
 	}
+
 	MyActors.clear();
 }
 
 void World::Tick()
 {
-	// ranged for
+	//index
+	//for (int i = 0; i < MyActors.size(); ++i)
+	//{
+	//	MyActors[i]->Tick();
+	//}
+
+	////iterator container
+	//for (auto iter = MyActors.begin(); iter != MyActors.end(); ++iter)
+	////for (vector<AActor*>::iterator iter = MyActors.begin(); iter != MyActors.end(); ++iter)
+	//{
+	//	(*iter)->Tick();
+	//}
+
+	//range for, C++ 14
 	for (auto Actor : MyActors)
 	{
 		Actor->Tick();
 	}
-	
-	// index
-	/*for (int i = 0; i < MyActors.size(); i++)
-	{
-		MyActors[i]->Tick();
-	}*/	
-
-	// container iterator
-	/*for (vector<AActor*>::iterator iter = MyActors.begin(); iter != MyActors.end(); iter++)
-	{
-		(*iter)->Tick();
-	}*/
 }
 
 void World::Render()
 {
-	for (auto Actor : MyActors)
+	for (AActor* Actor : MyActors)
 	{
 		Actor->Render();
 	}
-
-	//cout << MyActors.size() << endl;
 }
 
 void World::SpawnActor(AActor* NewActor)

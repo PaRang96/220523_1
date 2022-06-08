@@ -1,25 +1,27 @@
 #include "Monster.h"
 
 AMonster::AMonster()
-	: AActor()
+	:AActor()
 {
-	R = 0;
+	R = 255;
 	G = 255;
-	B = 255;
-	LoadBMP("slime.bmp");
-}
+	B = 0;
 
-AMonster::AMonster(int NewX, int NewY, char NewShape, bool bNewCollision, int NewSortOrder = 5)
-	: AActor(NewX, NewY, NewShape, bNewCollision, NewSortOrder)
-{
-	R = 0;
-	G = 255;
-	B = 255;
-	LoadBMP("slime.bmp");
+	LoadBMP("Data/Slime.bmp");
 }
 
 AMonster::~AMonster()
 {
+}
+
+AMonster::AMonster(int NewX, int NewY, char NewShape, bool bNewCollision, int NewSortOrder)
+	:AActor(NewX, NewY, NewShape, bNewCollision, NewSortOrder)
+{
+	R = 255;
+	G = 255;
+	B = 0;
+
+	LoadBMP("Data/Slime.bmp");
 }
 
 void AMonster::Tick()

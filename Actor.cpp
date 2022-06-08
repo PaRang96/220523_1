@@ -1,8 +1,9 @@
 #include "Actor.h"
-#include <Windows.h>
 #include <iostream>
+#include <Windows.h>
 #include "Engine.h"
 #include "World.h"
+
 
 using namespace std;
 
@@ -13,15 +14,20 @@ AActor::AActor()
 	Shape = ' ';
 	bCollision = false;
 	SortOrder = 1;
+
+	ColorKey = SDL_Color { 255, 255, 255, 0 };
 }
 
-AActor::AActor(int newX, int newY, char NewShape, bool bNewCollision, int NewSortOrder)
+AActor::AActor(int NewX, int NewY, char NewShape, bool bNewCollision, int NewSortOrder)
 {
-	X = newX;
-	Y = newY;
+	X = NewX;
+	Y = NewY;
 	Shape = NewShape;
 	bCollision = bNewCollision;
 	SortOrder = NewSortOrder;
+
+	ColorKey = SDL_Color { 255, 255, 255, 0 };
+
 }
 
 AActor::~AActor()
@@ -30,29 +36,18 @@ AActor::~AActor()
 	SDL_DestroyTexture(Texture);
 }
 
-void AActor::LoadBMP(string FileName)
+void AActor::Tick()
 {
-	// SSD image file to Memory(RAM)
-	Image = SDL_LoadBMP(FileName.c_str());
-
-	// Color Key -> erase the target color from renderer
-	SDL_SetColorKey(Image, SDL_TRUE, SDL_MapRGB(Image->format, 255, 0, 255));
-	SDL_SetColorKey(Image, SDL_TRUE, SDL_MapRGB(Image->format, 255, 255, 255));
-
-	// Image file from Memory(RAM) to GPU (VRAM)
-	Texture = SDL_CreateTextureFromSurface(GEngine->MyRenderer, Image);
 }
 
 void AActor::Render()
 {
-	COORD Pos;
-	Pos.X = X;
-	Pos.Y = Y;
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), Pos);
+	//COORD Cur;
+	//Cur.X = X;
+	//Cur.Y = Y;
+	//SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), Cur);
 
-	//Type = ESpriteType::Wall;
-
-	cout << Shape;
+	//cout << Shape;
 
 	if (Texture == nullptr)
 	{
@@ -61,19 +56,28 @@ void AActor::Render()
 	}
 	else
 	{
-		// draw image from GPU to screen
-		SDL_RenderCopy(GEngine->MyRenderer, Texture, NULL, new SDL_Rect{ X * Size, Y * Size, Size, Size });
+		//VRAM ±×·Á¶ó
+		SDL_RenderCopy(GEngine->MyRenderer, Texture, 
+			NULL,
+			new SDL_Rect{ X * Size, Y * Size, Size, Size });
 	}
+
 }
 
-void AActor::Tick()
+void AActor::LoadBMP(string Filename)
 {
+	//SSD File -> Memory(Ram)
+	Image = SDL_LoadBMP(Filename.c_str());
+
+	//Color Key
+	SDL_SetColorKey(Image, SDL_TRUE, SDL_MapRGB(Image->format, ColorKey.r, ColorKey.g, ColorKey.b));
+
+	//Memory -> VRAM(GPU)
+	Texture = SDL_CreateTextureFromSurface(GEngine->MyRenderer, Image);
 }
 
 bool AActor::PredictCollision(int PredictX, int PredictY)
 {
-	//GEngine->GetWorld()->MyActors;
-
 	for (auto Actor : GEngine->GetWorld()->MyActors)
 	{
 		if (Actor->X == PredictX && Actor->Y == PredictY && Actor->bCollision)

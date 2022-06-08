@@ -1,23 +1,22 @@
 #include "Floor.h"
 
 AFloor::AFloor()
-	: AActor()
 {
 	R = 255;
 	G = 255;
 	B = 255;
 
-	LoadBMP("floor.bmp");
+	LoadBMP("Data/floor.bmp");
 }
 
-AFloor::AFloor(int NewX, int NewY, char NewShape, bool bNewCollision = false, int NewSortOrder = 1)
-	: AActor(NewX, NewY, NewShape, bNewCollision, NewSortOrder)
+AFloor::AFloor(int NewX, int NewY, char NewShape, bool bNewCollision, int NewSortOrder)
+ : AActor(NewX, NewY, NewShape, bNewCollision, NewSortOrder)
 {
 	R = 255;
 	G = 255;
 	B = 255;
 
-	LoadBMP("floor.bmp");
+	LoadBMP("Data/floor.bmp");
 }
 
 AFloor::~AFloor()

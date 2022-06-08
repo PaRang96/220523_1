@@ -17,6 +17,6 @@ public:
 
 	void SpawnActor(AActor* NewActor);
 
-	//static vector<AActor*> GetActorList() { return MyActors; }
+	//static vector<AActor*> GetActorList() {	return MyActors; }
 };
 

@@ -1,14 +1,14 @@
 #pragma once
 #include "Actor.h"
 
-class AMonster :
-    public AActor
+
+class AMonster : public AActor
 {
 public:
-    AMonster();
-    AMonster(int NewX, int NewY, char NewShape, bool bNewCollision, int NewSortOrder);
-    virtual ~AMonster();
+	AMonster();
+	virtual ~AMonster();
+	AMonster(int NewX, int NewY, char NewShape, bool bNewCollision = false, int NewSortOrder = 5);
 
-    virtual void Tick() override;
+	virtual void Tick() override;
 };
 

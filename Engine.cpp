@@ -3,30 +3,23 @@
 #include <conio.h>
 #include <algorithm>
 
-#include "Actor.h"
+#include "World.h"
 #include "Engine.h"
-#include "Floor.h"
-#include "Goal.h"
 #include "Wall.h"
 #include "Player.h"
+#include "Goal.h"
+#include "Floor.h"
 #include "Monster.h"
-#include "World.h"
 
-#include "SDL.h"
-
-#pragma comment(lib, "SDL2.lib")
-#pragma comment(lib, "SDL2main.lib")
-
-
-using namespace std;
 
 int Engine::KeyCode = 0;
+
 Engine* Engine::Instance = nullptr;
 
 Engine::Engine()
 {
 	Instance = this;
-	Initialize();
+	Initilize();
 }
 
 Engine::~Engine()
@@ -34,21 +27,19 @@ Engine::~Engine()
 	Terminate();
 }
 
-void Engine::Initialize()
+void Engine::Initilize()
 {
-	MyWorld = new World;
 	bRunning = true;
+	MyWorld = new World();
 
-	// initializing hardware
 	if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
 	{
 		SDL_Log("SDL_INIT_ERROR");
 	}
 
-	// create window
+	//윈도창 만들기
 	MyWindow = SDL_CreateWindow("Maze", 100, 100, 800, 600, SDL_WINDOW_VULKAN);
-	MyRenderer = SDL_CreateRenderer(MyWindow, -1,
-		SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE);
+	MyRenderer = SDL_CreateRenderer(MyWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE);
 }
 
 void Engine::Load(string MapFilename)
@@ -62,36 +53,35 @@ void Engine::Load(string MapFilename)
 		char Buffer[1024] = { 0, };
 		MapFile.getline(Buffer, 1024);
 
-		// line by line
 		for (size_t X = 0; X < strlen(Buffer); ++X)
 		{
 			char Cursor = Buffer[X];
 			switch (Cursor)
 			{
 			case '#':
-				MyWorld->SpawnActor(new AWall(X, Y, '#', true, 2));
+				MyWorld->SpawnActor(new AWall((int)X, Y, '#', true));
 				break;
-			//case ' ':
-			//	MyWorld->SpawnActor(new AFloor(X, Y, ' ', false, 1));
-			//	break;
 			case 'P':
-				MyWorld->SpawnActor(new APlayer(X, Y, 'P', true, 4));
+				MyWorld->SpawnActor(new APlayer((int)X, Y, 'P', true));
 				break;
 			case 'G':
-				MyWorld->SpawnActor(new AGoal(X, Y, 'G', false, 3));
+				MyWorld->SpawnActor(new AGoal((int)X, Y, 'G', false));
 				break;
 			case 'M':
-				MyWorld->SpawnActor(new AMonster(X, Y, 'M', false, 5));
+				MyWorld->SpawnActor(new AMonster((int)X, Y, 'M', false));
 				break;
 			}
 
-			MyWorld->SpawnActor(new AFloor(X, Y, ' ', false, 1));
+
+			MyWorld->SpawnActor(new AFloor((int)X, Y, ' ', false));
 		}
-		
+
+
 		Y++;
 	}
 
-	// Rendering Order
+
+	//그리는 순서를 변경
 	sort(MyWorld->MyActors.begin(), MyWorld->MyActors.end(), AActor::Compare);
 
 	MapFile.close();
@@ -99,21 +89,20 @@ void Engine::Load(string MapFilename)
 
 void Engine::Run()
 {
-	while (bRunning) // per 1 frame
+	//Run
+	while (bRunning) //1 Frame
 	{
+		DeltaSeconds = SDL_GetTicks64() - LastTick;
 		Input();
 		MyWorld->Tick();
-
-		// tasks for gpu
 		SDL_SetRenderDrawColor(MyRenderer, 0xff, 0x00, 0x00, 0xff);
 		SDL_RenderClear(MyRenderer);
 
-		MyWorld->Render();
+		MyWorld->Render(); //액터 그릴꺼 등록
 
-		// draw rect
-		//SDL_SetRenderDrawColor(MyRenderer, 0xff, 0xff, 0x00, 0xff);
+		LastTick = SDL_GetTicks64();
 
-		// start tasks
+		//등록 된 일 시작
 		SDL_RenderPresent(MyRenderer);
 	}
 }
@@ -130,6 +119,9 @@ void Engine::Terminate()
 
 void Engine::Input()
 {
-	//Engine::KeyCode = _getch();
-	SDL_PollEvent(&MyEvent);
+//	Engine::KeyCode = _getch();
+	SDL_PollEvent(&MyEvent); //Input
+
 }
+
+
