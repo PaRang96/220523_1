@@ -38,8 +38,6 @@ public:
 	SDL_Renderer* MyRenderer;
 	SDL_Event MyEvent;
 
-
-
 protected:
 	World* MyWorld;
 
@@ -52,6 +50,7 @@ protected:
 	Uint64 LastTick;
 	Uint64 DeltaSeconds;
 
+	int TickCount = 0;
 };
 
 #define GEngine Engine::GetEngine()

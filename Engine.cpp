@@ -10,6 +10,7 @@
 #include "Goal.h"
 #include "Floor.h"
 #include "Monster.h"
+#include "Actor.h"
 
 
 int Engine::KeyCode = 0;
@@ -62,13 +63,13 @@ void Engine::Load(string MapFilename)
 				MyWorld->SpawnActor(new AWall((int)X, Y, '#', true));
 				break;
 			case 'P':
-				MyWorld->SpawnActor(new APlayer((int)X, Y, 'P', true));
+				MyWorld->SpawnActor(new APlayer((int)X, Y, 'P', false));
 				break;
 			case 'G':
 				MyWorld->SpawnActor(new AGoal((int)X, Y, 'G', false));
 				break;
 			case 'M':
-				MyWorld->SpawnActor(new AMonster((int)X, Y, 'M', false));
+				MyWorld->SpawnActor(new AMonster((int)X, Y, 'M', true));
 				break;
 			}
 
@@ -93,6 +94,7 @@ void Engine::Run()
 	while (bRunning) //1 Frame
 	{
 		DeltaSeconds = SDL_GetTicks64() - LastTick;
+
 		Input();
 		MyWorld->Tick();
 		SDL_SetRenderDrawColor(MyRenderer, 0xff, 0x00, 0x00, 0xff);
@@ -102,8 +104,15 @@ void Engine::Run()
 
 		LastTick = SDL_GetTicks64();
 
+		TickCount++;
+		if (TickCount == 8)
+		{
+			TickCount = 0;
+		}
+
 		//등록 된 일 시작
 		SDL_RenderPresent(MyRenderer);
+
 	}
 }
 
