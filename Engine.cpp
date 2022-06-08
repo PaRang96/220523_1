@@ -69,7 +69,7 @@ void Engine::Load(string MapFilename)
 				MyWorld->SpawnActor(new AGoal((int)X, Y, 'G', false));
 				break;
 			case 'M':
-				MyWorld->SpawnActor(new AMonster((int)X, Y, 'M', true));
+				MyWorld->SpawnActor(new AMonster((int)X, Y, 'M', false));
 				break;
 			}
 
